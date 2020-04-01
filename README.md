@@ -1,6 +1,14 @@
 # Machine Learning in C++
 Trying to implement some of machine learning algorithms and techniques on C++. The aim of doing this is not replacing python with C++ but to learn C++ for practical purposes.
 
+# How?
+To run my current progress, compile and run.cpp as follows:
+```
+g++ run.cpp -std=c++17 -o run.o
+./run.o
+```
+I am using `std::any` for which C++17 is required, hence the `-std=c++17 ` flag.
+
 # Done:
 ## Data
 - A simple CSV reader. See `CSVReader.h`.
