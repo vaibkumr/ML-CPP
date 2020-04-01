@@ -1,6 +1,11 @@
 # Machine Learning in C++
 Trying to implement some of machine learning algorithms and techniques on C++. The aim of doing this is not replacing python with C++ but to learn C++ for practical purposes.
 
+# Done:
+## Data
+- A simple CSV reader. See `CSVReader.h`.
+- A label encoder for categorical variables. See `preprocess.h`.
+
 # Todo:
 ### Data
 - A CSV file reader/writer.
