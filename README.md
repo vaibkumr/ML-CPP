@@ -8,7 +8,10 @@ g++ run.cpp -std=c++17 -o run.o
 ./run.o
 ```
 I am using `std::any` for which C++17 is required, hence the `-std=c++17 ` flag.
-
+```
+bash run.sh
+```
+^faster. TODO: MAKEFILE.
 # Done:
 ## Data
 - A simple CSV reader. See `CSVReader.h`.
