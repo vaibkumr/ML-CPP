@@ -9,9 +9,13 @@ int main(){
     std::string fname = "iris.csv";
     csv::CSV csvobj(fname);
     csvobj.CSVReader();
-    csvobj.PrettyPrint();
+    // csvobj.PrettyPrint();
     pp::LabelEncoder le;
     std::vector<std::string> catcols{ "species" };
     csvobj.data = le.encode(csvobj.data, catcols);
     csvobj.PrettyPrint();
+    pp::Summarizer s;
+    std::vector<std::string> numcols{"sepal_length", "sepal_width", "petal_length", "petal_width"};
+    s.summarize(csvobj.data, numcols);
+
 }

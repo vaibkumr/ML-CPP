@@ -16,6 +16,7 @@ bash run.sh
 ## Data
 - A simple CSV reader. See `CSVReader.h`.
 - A label encoder for categorical variables. See `preprocess.h`.
+- Summarizer in `preprocess.h`. Prints `"mean", "stdv", "count", "min", "20%", "40%", "50%", "60%", "80%", "max"` for each numerical column.
 
 # Todo:
 ### Data
