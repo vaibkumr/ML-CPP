@@ -1,5 +1,3 @@
-// Compile using -std=c++17
-
 #include <fstream>
 #include <vector>
 #include <unordered_map>
@@ -18,6 +16,7 @@
 #define DATATYPE std::unordered_map<std::string, std::vector<std::any>>
 // #define MAPOFMAP std::unordered_map<std::string, std::unordered_map<std::string, std::any>>
 #define MAPOFMAP std::unordered_map<std::string, std::unordered_map<std::string, float>>
+#define MAPOFMAPSTRING std::unordered_map<std::string, std::unordered_map<std::string, std::string>>
 #define CASTSTRING std::any_cast<std::string>
 #define CASTINT std::any_cast<int>
 #define CASTFLOAT std::any_cast<float>
@@ -26,7 +25,7 @@ namespace pp{
 
     class Summarizer{
         public:
-            MAPOFMAP summarize(DATATYPE data, std::vector<std::string> numcols);
+            MAPOFMAP summarize(DATATYPE data, std::vector<std::string> numcols, std::vector<std::string> catcols);
     };
 
     template <class T>
@@ -105,11 +104,62 @@ namespace pp{
         return result;
     }
     
-    void print_summary(MAPOFMAP summary, std::vector<std::string> numcols){
+
+    std::vector<std::string> calc_cat_col_summary(std::vector<std::any> col){
+        float count=0, nunique=0;
+        std::unordered_map<std::string, int> countmap;
+        std::vector<std::string> result;
+        size_t size = col.size();
+        std::string value;
+
+        for(int i=0; i<size; i++){
+            // value = "aa";
+            try{
+                value = std::to_string(std::any_cast<int>(col[i]));
+            }
+            catch(...){
+                std::cout<<"\ncant cast: " << typeid(col[i]).name() <<" at index: " << i;
+            }
+            countmap[value]++;
+            count++;
+        }
+        
+        float min=std::numeric_limits<float>::max();
+        float max=std::numeric_limits<float>::min();
+        std::string mostfrq, lstfrq;
+
+        for(auto it=countmap.begin(); it!=countmap.end(); ++it){
+            if(it->second >= max){
+                max = it->second;
+                mostfrq = it->first;
+            }
+            if(it->second < min){
+                min = it->second;
+                lstfrq = it->first;
+            }
+            nunique++;
+        }
+        result.push_back(std::to_string(count));
+        result.push_back(std::to_string(nunique));
+        result.push_back(mostfrq);
+        result.push_back(lstfrq);
+        std::cout<<mostfrq<<std::endl;
+        std::cout<<lstfrq<<std::endl;
+        
+        return result;
+    }
+
+    template <class T>
+    void print_summary(std::unordered_map<std::string, std::unordered_map<std::string, T>> summary, std::vector<std::string> numcols, bool iscat){
         std::cout << std::fixed;
         std::cout << std::setprecision(4);
         std::cout<<std::endl<<"Value\t\t";
-        std::vector<std::string> rows {"mean", "stdv", "count", "min", "20%", "40%", "50%", "60%", "80%", "max"};
+        std::vector<std::string> rows;
+        if(!iscat)
+            rows = {"mean", "stdv", "count", "min", "20%", "40%", "50%", "60%", "80%", "max"};
+        else
+            rows = {"count", "unique", "mostfrq", "lstfrq"};
+        
         for(auto c: numcols)
             std::cout<<c<<"\t\t";
             
@@ -122,9 +172,11 @@ namespace pp{
         std::cout<<std::endl;
     }
 
-    MAPOFMAP Summarizer::summarize(DATATYPE data, std::vector<std::string> numcols){
+    MAPOFMAP Summarizer::summarize(DATATYPE data, std::vector<std::string> numcols, std::vector<std::string> catcols){
         MAPOFMAP summary;
+        MAPOFMAPSTRING summary_cat;
         std::vector<float> col_summary;
+        std::vector<std::string> cat_col_summary;
         for(auto c:numcols){
             col_summary = calc_col_summary(data[c]);
             summary[c]["mean"] = col_summary.at(0);
@@ -138,10 +190,17 @@ namespace pp{
             summary[c]["min"] = col_summary.at(8);
             summary[c]["max"] = col_summary.at(9);
         }
-        print_summary(summary, numcols);
+        for(auto c:catcols){
+            cat_col_summary = calc_cat_col_summary(data[c]);
+            summary_cat[c]["count"] = cat_col_summary.at(0);
+            summary_cat[c]["unique"] = cat_col_summary.at(1);
+            summary_cat[c]["mostfrq"] = cat_col_summary.at(2);
+            summary_cat[c]["lstfrq"] = cat_col_summary.at(3);
+        }      
+        print_summary<float>(summary, numcols, false);
+        print_summary<std::string>(summary_cat, catcols, true);
         return summary;
     }
-
 
     class LabelEncoder{
         public:

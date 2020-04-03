@@ -1,5 +1,3 @@
-// Compile using -std=c++17
-
 #include <fstream>
 #include <vector>
 #include <unordered_map>

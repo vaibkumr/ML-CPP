@@ -15,7 +15,7 @@ int main(){
     csvobj.data = le.encode(csvobj.data, catcols);
     csvobj.PrettyPrint();
     pp::Summarizer s;
-    std::vector<std::string> numcols{"sepal_length", "sepal_width", "petal_length", "petal_width"};
-    s.summarize(csvobj.data, numcols);
+    std::vector<std::string> numcols{ "sepal_length", "sepal_width", "petal_length", "petal_width" };
+    s.summarize(csvobj.data, numcols, catcols);
 
 }
