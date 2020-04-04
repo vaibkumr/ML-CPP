@@ -23,9 +23,10 @@
 
 namespace pp{
 
+    
     class Summarizer{
         public:
-            MAPOFMAP summarize(DATATYPE data, std::vector<std::string> numcols, std::vector<std::string> catcols);
+            std::pair<MAPOFMAP, MAPOFMAPSTRING> summarize(DATATYPE data, std::vector<std::string> numcols, std::vector<std::string> catcols);
     };
 
     template <class T>
@@ -172,7 +173,7 @@ namespace pp{
         std::cout<<std::endl;
     }
 
-    MAPOFMAP Summarizer::summarize(DATATYPE data, std::vector<std::string> numcols, std::vector<std::string> catcols){
+    std::pair<MAPOFMAP, MAPOFMAPSTRING> Summarizer::summarize(DATATYPE data, std::vector<std::string> numcols, std::vector<std::string> catcols){
         MAPOFMAP summary;
         MAPOFMAPSTRING summary_cat;
         std::vector<float> col_summary;
@@ -197,9 +198,11 @@ namespace pp{
             summary_cat[c]["mostfrq"] = cat_col_summary.at(2);
             summary_cat[c]["lstfrq"] = cat_col_summary.at(3);
         }      
+        std::pair<MAPOFMAP, MAPOFMAPSTRING> totalsummary;
+        totalsummary = std::make_pair(summary, summary_cat);
         print_summary<float>(summary, numcols, false);
         print_summary<std::string>(summary_cat, catcols, true);
-        return summary;
+        return totalsummary;
     }
 
     class LabelEncoder{
@@ -248,6 +251,53 @@ namespace pp{
         }
         return data;
     }
+
+    class fillNA{
+        public:
+            void report_na(DATATYPE data);
+            DATATYPE fill_na(DATATYPE data, std::vector<std::string> numcols, std::vector<std::string> catcols, std::string fillvalue);
+    };
+
+    std::vector<std::any> fill_col_na(std::vector<std::any> col, std::string fillvalue){
+        std::string val;
+        for(int i=0; i<col.size(); i++){
+            val = CASTSTRING(col[i]);
+            if(val.length()==0){
+                col[i] = fillvalue;
+            }
+        }
+        return col;
+    }
+
+    DATATYPE fillNA::fill_na(DATATYPE data, std::vector<std::string> numcols, std::vector<std::string> catcols, std::string fillvalue){
+        bool use_mean = false;
+        std::pair<MAPOFMAP, MAPOFMAPSTRING> summary;
+        if(fillvalue == "mean"){
+            use_mean = true;
+            pp::Summarizer s;
+            summary = s.summarize(data, numcols, catcols);
+        }
+            
+        for(auto c:numcols){
+            if(use_mean){
+                fillvalue = std::to_string(summary.first[c]["mean"]);
+            }
+            else
+                fillvalue = "0";
+            data[c] = fill_col_na(data[c], fillvalue);
+        }
+        for(auto c:numcols){
+            if(use_mean){
+                fillvalue = summary.second[c]["mostfrq"];
+                // fillvalue = "0";
+            }
+            else
+                fillvalue = "0";
+            data[c] = fill_col_na(data[c], fillvalue);
+        }        
+    return data;    
+    }
+
 }
 
 

@@ -17,5 +17,7 @@ int main(){
     pp::Summarizer s;
     std::vector<std::string> numcols{ "sepal_length", "sepal_width", "petal_length", "petal_width" };
     s.summarize(csvobj.data, numcols, catcols);
-
+    pp::fillNA fn;
+    csvobj.data = fn.fill_na(csvobj.data, numcols, catcols, "mean");
+    csvobj.PrettyPrint();
 }

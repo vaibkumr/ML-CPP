@@ -18,13 +18,13 @@ bash run.sh
 - A label encoder for categorical variables. See `preprocess.h`.
 - Summarizer in `preprocess.h`. Prints `"mean", "stdv", "count", "min", "20%", "40%", "50%", "60%", "80%", "max"` for each numerical column.
 - Summarizer updated in `preprocess.h`. Prints `"count", "unique", "mostfrq", "lstfrq"` for each categorical column.
+- FillNA added in `preprocess.h`. Supports mean (mostfreq for categorical) and zero value filling for all columns.
 
 # Todo:
 ### Data
-- A CSV file reader/writer.
 - Data slicing.
 - Data summarization for a given arbitrary CSV (mean, median, correlations, quantiles).
-- Data clearning and preprocessing (find_na, fill_na, a versatile feature engineering engine).
+- A versatile feature engineering engine.
 - Image data - resize, crop, negative, blur, etc.
 
 ### Visualizations
