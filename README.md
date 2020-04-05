@@ -19,11 +19,11 @@ bash run.sh
 - Summarizer in `preprocess.h`. Prints `"mean", "stdv", "count", "min", "20%", "40%", "50%", "60%", "80%", "max"` for each numerical column.
 - Summarizer updated in `preprocess.h`. Prints `"count", "unique", "mostfrq", "lstfrq"` for each categorical column.
 - FillNA added in `preprocess.h`. Supports mean (mostfreq for categorical) and zero value filling for all columns.
+- Feature engineering - Added pearson correlation for all pairs of numcols in `featureengine.h`.
 
 # Todo:
 ### Data
 - Data slicing.
-- Data summarization for a given arbitrary CSV (mean, median, correlations, quantiles).
 - A versatile feature engineering engine.
 - Image data - resize, crop, negative, blur, etc.
 

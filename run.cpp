@@ -1,6 +1,7 @@
 // Compile using -std=c++17
 #include "CSVReader.h"
 #include "preprocess.h"
+#include "featureengine.h"
 #include <string>
 #include <any>
 
@@ -20,4 +21,6 @@ int main(){
     pp::fillNA fn;
     csvobj.data = fn.fill_na(csvobj.data, numcols, catcols, "mean");
     csvobj.PrettyPrint();
+    fe::correlation c;
+    c.pearson(csvobj.data, numcols);
 }
