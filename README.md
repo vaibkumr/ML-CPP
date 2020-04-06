@@ -20,10 +20,13 @@ bash run.sh
 - Summarizer updated in `preprocess.h`. Prints `"count", "unique", "mostfrq", "lstfrq"` for each categorical column.
 - FillNA added in `preprocess.h`. Supports mean (mostfreq for categorical) and zero value filling for all columns.
 - Feature engineering - Added pearson correlation for all pairs of numcols in `featureengine.h`.
+- Data slicing: (See `CSVReader.h`)
+    - Supports negative index (-i means i indices from end)
+    - Asserts for ranges
+    - Inplace update for saving memory
 
 # Todo:
 ### Data
-- Data slicing.
 - A versatile feature engineering engine.
 - Image data - resize, crop, negative, blur, etc.
 

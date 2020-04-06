@@ -23,4 +23,6 @@ int main(){
     csvobj.PrettyPrint();
     fe::correlation c;
     c.pearson(csvobj.data, numcols);
+    csvobj.data = csvobj.slice(0, 10, 1, -1);
+    csvobj.PrettyPrint();
 }
