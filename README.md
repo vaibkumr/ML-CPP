@@ -24,6 +24,7 @@ bash run.sh
     - Supports negative index (-i means i indices from end)
     - Asserts for ranges
     - Inplace update for saving memory
+    - Default arguments for start and end index of both rows and cols
 
 # Todo:
 ### Data
