@@ -13,7 +13,7 @@ bash run.sh
 ```
 ^faster. TODO: MAKEFILE.
 # Done:
-## Data
+### Data
 - A simple CSV reader. See `CSVReader.h`.
 - A label encoder for categorical variables. See `preprocess.h`.
 - Summarizer in `preprocess.h`. Prints `"mean", "stdv", "count", "min", "20%", "40%", "50%", "60%", "80%", "max"` for each numerical column.
@@ -25,6 +25,8 @@ bash run.sh
     - Asserts for ranges
     - Inplace update for saving memory
     - Default arguments for start and end index of both rows and cols
+
+### Loss functions
 - Implemented some loss functions (`losses.h`):
     - MSE 
     - RMSE
