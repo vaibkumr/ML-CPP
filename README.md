@@ -25,6 +25,11 @@ bash run.sh
     - Asserts for ranges
     - Inplace update for saving memory
     - Default arguments for start and end index of both rows and cols
+- Implemented some loss functions (`losses.h`):
+    - MSE 
+    - RMSE
+    - MAE
+    - Huber
 
 # Todo:
 ### Data
@@ -37,11 +42,8 @@ bash run.sh
 - Point plot
 
 ### Loss functions
-- MAE, MSE, RMSE
-- Cross entropy, negative log loss
-- Hinge, huber
+- Cross entropy, negative log loss, Hinge
 - KL Divergence
-
 
 ### Models
 - KNN

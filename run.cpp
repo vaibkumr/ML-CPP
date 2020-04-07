@@ -2,6 +2,7 @@
 #include "CSVReader.h"
 #include "preprocess.h"
 #include "featureengine.h"
+#include "losses.h"
 #include <string>
 #include <any>
 
@@ -23,6 +24,10 @@ int main(){
     csvobj.PrettyPrint();
     fe::correlation c;
     c.pearson(csvobj.data, numcols);
-    csvobj.data = csvobj.slice(0, 10, 1, -1);
-    csvobj.PrettyPrint();
+    // csvobj.data = csvobj.slice(0, 10, 1, -1);
+    // csvobj.PrettyPrint();
+    std::cout<<"MSE: "<<losses::mse(csvobj.data["sepal_length"], csvobj.data["sepal_width"]) << "\n";
+    std::cout<<"RMSE: "<<losses::rmse(csvobj.data["sepal_length"], csvobj.data["sepal_width"]) << "\n";
+    std::cout<<"MAE: "<<losses::mae(csvobj.data["sepal_length"], csvobj.data["sepal_width"]) << "\n";
+    std::cout<<"Huber: "<<losses::huber(csvobj.data["sepal_length"], csvobj.data["sepal_width"]) << "\n";
 }
