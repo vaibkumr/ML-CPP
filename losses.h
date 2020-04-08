@@ -105,12 +105,4 @@ namespace losses{
         }
         return loss/n;
     }    
-
-
-
 }
-
-
-
-
-

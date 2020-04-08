@@ -32,6 +32,8 @@ bash run.sh
     - RMSE
     - MAE
     - Huber
+- Implemented some metrics:
+    - Accuracy    
 
 # Todo:
 ### Data
