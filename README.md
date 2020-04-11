@@ -34,6 +34,11 @@ bash run.sh
     - Huber
 - Implemented some metrics:
     - Accuracy    
+    - Multi label confusion matrix
+    - Precision
+    - Recall
+    - F1
+    - Fbeta
 
 # Todo:
 ### Data

@@ -33,6 +33,12 @@ int main(){
     std::cout<<"MAE: "<<losses::mae(csvobj.data["sepal_length"], csvobj.data["sepal_width"]) << "\n";
     std::cout<<"Huber: "<<losses::huber(csvobj.data["sepal_length"], csvobj.data["sepal_width"]) << "\n";
     std::cout<<"Accracy: "<<metric::accuracy(csvobj.data["species"], csvobj.data["species_guess"]) << "\n";
+    std::pair<float, float> pr = metric::confusion_matrix(csvobj.data["species"], csvobj.data["species_guess"]);
+    std::cout<<"Precision: "<< pr.first << "\n";
+    std::cout<<"Recall: "<< pr.second << "\n";
+    std::cout<<"F1: "<<metric::accuracy(csvobj.data["species"], csvobj.data["species_guess"]) << "\n";
+    int beta = 2;
+    std::cout<<"Fbeta: "<<metric::fbeta(csvobj.data["species"], csvobj.data["species_guess"], beta) << "\n";
 
     
 }

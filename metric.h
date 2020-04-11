@@ -62,6 +62,76 @@ namespace metric{
         }
         return acc/n;
     }
+
+
+    int n_classes(std::vector<int> v){
+        std::sort(v.begin(), v.end());
+        return std::unique(v.begin(), v.end()) - v.begin();
+    }
+
+    // template <typename TwoD>
+    // int sum_row(TwoD& arr){
+    //     return 1;
+    // }
+
+    template <class T> 
+    std::pair<float, float> confusion_matrix(std::vector<T> y1, std::vector<T> y2, bool verbose=true){
+        std::vector<int> y;
+        std::vector<int> y_pred;
+        y = cast_vector<int>(y1);
+        y_pred = cast_vector<int>(y2);
+        assertm(y1.size()==y2.size(), "Vectors must have equal length\n");
+        size_t n = y.size();
+        int nc = n_classes(y);
+        int cmatrix[nc][nc]; //rows are preds, columns are actual
+  
+        // init to zero
+        for(int i=0; i<nc; i++){
+            for(int j=0; j<nc; j++)
+                cmatrix[i][j] = 0;
+        }
+
+        for(int i=0; i<n; i++)
+            cmatrix[(y_pred[i]-1)][(y[i]-1)]++;
+        float precision = 0;
+        float recall = 0;
+
+        if(verbose){
+            std::cout<<"\n++++++++++++++++++++++++++++\n";
+            std::cout<<"Confusion matrix \t\n";
+            for(int i=0; i<nc; i++){
+                for(int j=0; j<nc; j++)
+                    std::cout<<cmatrix[i][j]<<"\t";
+                std::cout<<std::endl;    
+            }
+            std::cout<<"++++++++++++++++++++++++++++\n";
+        }    
+        
+        for(int i=0; i<nc; i++){
+            float sum_row = 0;
+            float sum_column = 0;
+            for(int k=0; k<nc; k++){
+                sum_row += cmatrix[i][k];
+                sum_column += cmatrix[k][i];
+            }
+            
+            precision += cmatrix[i][i]/(nc*sum_row);
+            recall += cmatrix[i][i]/(nc*sum_column);
+        }    
+        std::pair<float, float> pr = std::make_pair(precision, recall);
+        return pr;
+    }
     
-   
+    template <class T> 
+    float f1(std::vector<T> y1, std::vector<T> y2){
+        std::pair<float, float> pr = confusion_matrix(y1, y2, false);
+        return 2*pr.first*pr.second/(pr.first+pr.second);
+        }
+
+    template <class T> 
+    float fbeta(std::vector<T> y1, std::vector<T> y2, float beta=1){
+        std::pair<float, float> pr = confusion_matrix(y1, y2, false);
+        return (1+pow(beta, 2))*pr.first*pr.second/(pow(beta, 2)*pr.first+pr.second);
+        }        
+         
 }
